@@ -1,4 +1,5 @@
 import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -8,8 +9,8 @@ plugins {
     alias(libs.plugins.vanniktech.mavenPublish)
 }
 
-group = "com.bngdev"
-version = "0.0.1"
+group = rootProject.group
+version = rootProject.version
 
 kotlin {
     jvm()
@@ -22,7 +23,12 @@ kotlin {
     iosX64()
     iosArm64()
     iosSimulatorArm64()
-    linuxX64()
+    watchosX64()
+    tvosX64()
+    tvosArm64()
+    tvosSimulatorArm64()
+    macosX64()
+    macosArm64()
 
     js(IR) {
         browser()
@@ -33,6 +39,16 @@ kotlin {
     wasmJs {
         browser()
         binaries.executable()
+    }
+
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    applyDefaultHierarchyTemplate {
+        common {
+            group("commonJvm") {
+                withJvm()
+                withAndroidTarget()
+            }
+        }
     }
 
     sourceSets {
@@ -70,7 +86,7 @@ mavenPublishing {
 
     signAllPublications()
 
-    coordinates(group.toString(), "library", version.toString())
+    coordinates(group.toString(), "formatk", version.toString())
 
     pom {
         name = "formatk-number"
