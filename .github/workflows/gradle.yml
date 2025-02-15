@@ -22,19 +22,11 @@ jobs:
     strategy:
       matrix:
         include:
-          - target: iosSimulatorArm64Test macosArm64Test macosX64Test tvosSimulatorArm64Test tvosX64Test
+          - target: iosSimulatorArm64Test macosArm64Test macosX64Test tvosSimulatorArm64Test tvosX64Test detekt
             os: macos-latest
-          - target: jvmTest
+          - target: testDebugUnitTest testReleaseUnitTest jvmTest detekt
             os: ubuntu-latest
-          - target: testDebugUnitTest
-            os: ubuntu-latest
-          - target: testReleaseUnitTest
-            os: ubuntu-latest
-          - target: jsTest
-            os: ubuntu-latest
-          - target: wasmJsTest
-            os: ubuntu-latest
-          - target: jsTest
+          - target: wasmJsTest jsTest detekt
             os: ubuntu-latest
     runs-on: ${{ matrix.os }}
 
