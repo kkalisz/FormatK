@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.vanniktech.mavenPublish)
+    alias(libs.plugins.detekt)
 }
 
 group = rootProject.group
@@ -56,11 +57,13 @@ kotlin {
     }
 
     sourceSets {
+        @Suppress("UnusedPrivateMember")
         val commonMain by getting {
             dependencies {
                 // put your multiplatform dependencies here
             }
         }
+        @Suppress("UnusedPrivateMember")
         val commonTest by getting {
             dependencies {
                 implementation(libs.kotlin.test)
