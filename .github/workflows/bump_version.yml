@@ -33,12 +33,14 @@ jobs:
           gradle_properties_location: "./gradle.properties"
 
       - name: Set up JDK 21
+        if: false
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: 21
 
       - name: Publish to MavenCentral
+        if: false
         run: ./gradlew publishToMavenCentral --no-configuration-cache
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
@@ -47,18 +49,13 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_KEY_CONTENTS }}
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@latest
+      - name: Create a Release
+        uses: elgohr/Github-Release-Action@v5
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ steps.version-extract.outputs.version_name }}
-          release_name: Release ${{ steps.version-extract.outputs.version_name }}
-          body: |
-            Changes in this Release
-          draft: false
-          prerelease: false
+          tag: v${{ steps.version-extract.outputs.version_name }}
+          title: ${{ steps.version-extract.outputs.version_name }}
 
       - name: Commit version bump
         uses: peter-evans/create-pull-request@v3.10.1
