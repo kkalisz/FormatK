@@ -33,14 +33,12 @@ jobs:
           gradle_properties_location: "./gradle.properties"
 
       - name: Set up JDK 21
-        if: false
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: 21
 
       - name: Publish to MavenCentral
-        if: false
         run: ./gradlew publishToMavenCentral --no-configuration-cache
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
@@ -48,6 +46,14 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNING_KEY_ID }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_KEY_CONTENTS }}
+
+      - name: Commit version bump
+        run: |
+          git config user.name "CI Bot"
+          git config user.email "ci-bot@kkalisz.com"
+
+          git commit -m "Bump version to ${{ steps.version-extract.outputs.version_name }} for branch ${{ steps.branch-names.outputs.current_branch }} [skip ci]"
+          git push origin HEAD
 
       - name: Create a Release
         uses: elgohr/Github-Release-Action@v5
