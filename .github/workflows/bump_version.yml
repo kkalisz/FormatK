@@ -8,6 +8,7 @@ on:
 
 jobs:
   bump-version:
+    if: startsWith(github.ref, 'refs/heads/hotfix/') || startsWith(github.ref, 'refs/heads/release/') && github.event_name != 'pull_request'
     runs-on: macOS-latest
     steps:
       - name: Checkout code
