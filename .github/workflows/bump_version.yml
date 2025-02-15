@@ -53,6 +53,7 @@ jobs:
         run: |
           git config user.name "CI Bot"
           git config user.email "ci-bot@kkalisz.com"
+          git add gradle.properties
 
           git commit -m "Bump version to ${{ steps.version-extract.outputs.version_name }} for branch ${{ steps.branch-names.outputs.current_branch }} [skip ci]"
           git push origin HEAD
