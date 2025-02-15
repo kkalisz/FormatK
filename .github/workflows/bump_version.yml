@@ -60,7 +60,7 @@ jobs:
       - name: Commit version bump
         uses: peter-evans/create-pull-request@v3.10.1
         with:
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "Bump version to ${{ steps.version-extract.outputs.version_name }} for branch ${{ steps.branch-names.outputs.current_branch }} [skip ci]"
           title: "Bump version to ${{ steps.version-extract.outputs.version_name }}"
           body: Auto-created Pull Request
