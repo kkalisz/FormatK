@@ -1,0 +1,38 @@
+name: "Extract Version and Version Code"
+description: "Extracts version name from branch name and calculates versionCode based on commit count."
+inputs:
+  branch_name:
+    description: "The name of the branch (e.g., release/1.3.0 or hotfix/1.2.4)."
+    required: true
+outputs:
+  version_name:
+    description: "The extracted version name (e.g., 1.3.0)."
+    value: ${{ steps.extract.outputs.version_name }}
+  version_code:
+    description: "The calculated versionCode based on the total commit count."
+    value: ${{ steps.extract.outputs.version_code }}
+runs:
+  using: "composite"
+  steps:
+    - name: Extract version and version code
+      id: extract
+      shell: bash
+      run: |
+        BRANCH_NAME="${{ inputs.branch_name }}"
+        VERSION_NAME=$(echo $BRANCH_NAME | sed -e 's|release/||' -e 's|hotfix/||')
+
+        # Validate extracted version format
+        if [[ ! $VERSION_NAME =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          echo "Invalid version format: $VERSION_NAME"
+          exit 1
+        fi
+
+        echo "Extracted version name: $VERSION_NAME"
+
+        # Get the commit count for versionCode
+        VERSION_CODE=$(git rev-list --all --count)
+        echo "New version code: $VERSION_CODE"
+
+        # Set outputs
+        echo "version_name=$VERSION_NAME" >> "$GITHUB_OUTPUT"
+        echo "version_code=$VERSION_CODE" >> "$GITHUB_OUTPUT"

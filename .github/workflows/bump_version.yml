@@ -1,0 +1,70 @@
+name: Bump Version on Branch Creation
+
+on:
+  create:
+    branches:
+      - 'release/*'
+      - 'hotfix/*'
+
+jobs:
+  bump-version:
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: "0"
+
+      - name: Get branch names.
+        id: branch-names
+        uses: tj-actions/branch-names@v8
+
+      - name: Extract Version and Version Code
+        uses: ./.github/actions/extract-version
+        id: version-extract
+        with:
+          branch_name: ${{ steps.branch-names.outputs.current_branch }}
+
+      - name: Update Android and iOS Versions
+        uses: ./.github/actions/update-versions
+        with:
+          version_name: ${{ steps.version-extract.outputs.version_name }}
+          gradle_properties_location: "./gradle.properties"
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: 21
+
+      - name: Publish to MavenCentral
+        run: ./gradlew publishToMavenCentral --no-configuration-cache
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNING_KEY_ID }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_KEY_CONTENTS }}
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: v${{ steps.version-extract.outputs.version_name }}
+          release_name: Release ${{ steps.version-extract.outputs.version_name }}
+          body: |
+            Changes in this Release
+          draft: false
+          prerelease: false
+
+      - name: Commit version bump
+        uses: peter-evans/create-pull-request@v3.10.1
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          commit-message: "Bump version to ${{ steps.version-extract.outputs.version_name }} for branch ${{ steps.branch-names.outputs.current_branch }} [skip ci]"
+          title: "Bump version to ${{ steps.version-extract.outputs.version_name }}"
+          body: Auto-created Pull Request
+          branch: ${{ github.ref }} # The branch where you commit
+          base: main
