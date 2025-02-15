@@ -26,19 +26,21 @@ jobs:
         with:
           branch_name: ${{ steps.branch-names.outputs.current_branch }}
 
-      - name: Update Android and iOS Versions
+      - name: Update library version
         uses: ./.github/actions/update-versions
         with:
           version_name: ${{ steps.version-extract.outputs.version_name }}
           gradle_properties_location: "./gradle.properties"
 
       - name: Set up JDK 21
+        if: false
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: 21
 
       - name: Publish to MavenCentral
+        if: false
         run: ./gradlew publishToMavenCentral --no-configuration-cache
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
