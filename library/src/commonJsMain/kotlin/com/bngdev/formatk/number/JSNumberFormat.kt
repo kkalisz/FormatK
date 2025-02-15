@@ -25,7 +25,7 @@ class JsNumberFormat(
             minimumFractionDigits = options.minimumFractionDigits,
             maximumFractionDigits = options.maximumFractionDigits,
             currencyCode = options.currency,
-            useGrouping = mapUseGroupingJsToBoolean(options.useGrouping?.toString()),
+            useGrouping = mapUseGroupingJsToBoolean(options.useGrouping),
         )
     }
 

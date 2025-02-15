@@ -33,7 +33,7 @@ data class CurrencyInfo(val name: String, val code: String, val symbol: String?,
         }
 
         fun getCurrency(locale: LocaleInfo): CurrencyInfo? {
-            return getCurrencyByCountryCode(locale.region ?: "")
+            return getCurrencyByCountryCode(locale.region)
         }
 
         fun getCurrencyByCode(code: String): CurrencyInfo? {
