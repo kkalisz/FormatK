@@ -48,13 +48,17 @@ kotlin {
                 withJvm()
                 withAndroidTarget()
             }
+            group("commonJs") {
+                withJs()
+                withWasmJs()
+            }
         }
     }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                //put your multiplatform dependencies here
+                // put your multiplatform dependencies here
             }
         }
         val commonTest by getting {
@@ -74,7 +78,7 @@ kotlin {
 }
 
 android {
-    namespace = "org.jetbrains.kotlinx.multiplatform.library.template"
+    namespace = "com.bngdev.formatk.number"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
