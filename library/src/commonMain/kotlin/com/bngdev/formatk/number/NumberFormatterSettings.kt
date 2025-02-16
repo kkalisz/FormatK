@@ -4,7 +4,7 @@ import com.bngdev.formatk.CurrencyInfo
 import com.bngdev.formatk.LocaleInfo
 import kotlin.math.min
 
-data class NumberFormaterSettings(
+data class NumberFormatterSettings(
     val useGrouping: Boolean? = null,
     val roundingMode: RoundingMode? = null,
     val minimumFractionDigits: Int? = null,
@@ -12,21 +12,21 @@ data class NumberFormaterSettings(
     val currencyCode: String? = null,
 )
 
-fun NumberFormaterSettings.getMinimumFractionDigitsSafe(): Int? {
+fun NumberFormatterSettings.getMinimumFractionDigitsSafe(): Int? {
     if (maximumFractionDigits == null || minimumFractionDigits == null) {
         return minimumFractionDigits
     }
     return min(minimumFractionDigits, maximumFractionDigits)
 }
 
-fun NumberFormaterSettings.getMaximumFractionDigitsSafe(): Int? {
+fun NumberFormatterSettings.getMaximumFractionDigitsSafe(): Int? {
     if (maximumFractionDigits == null || minimumFractionDigits == null) {
         return maximumFractionDigits
     }
     return maximumFractionDigits
 }
 
-fun NumberFormaterSettings.getCurrencyInfoSafe(localeInfo: LocaleInfo): CurrencyInfo? {
+fun NumberFormatterSettings.getCurrencyInfoSafe(localeInfo: LocaleInfo): CurrencyInfo? {
     if (currencyCode != null) {
         return CurrencyInfo.getCurrencyByCode(currencyCode)
     }
