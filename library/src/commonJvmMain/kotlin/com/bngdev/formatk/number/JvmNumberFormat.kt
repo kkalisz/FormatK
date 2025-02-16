@@ -67,12 +67,6 @@ class JvmNumberFormat(private val locale: LocaleInfo) : NumberFormater {
     // TODO check version of java if possible take into consideration android  (Locale.of)
     private fun LocaleInfo.toLocale(): Locale = Locale(this.language, this.region)
 
-
-
-
-
-
-
     private fun RoundingMode.toJavaRoundingMode(): JavaRoundingMode = when (this) {
         RoundingMode.UP -> JavaRoundingMode.UP
         RoundingMode.DOWN -> JavaRoundingMode.DOWN

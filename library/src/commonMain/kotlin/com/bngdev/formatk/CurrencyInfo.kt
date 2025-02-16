@@ -15,16 +15,12 @@ data class CurrencyInfo(val name: String, val code: String, val symbol: String?,
             return supportedLocaleTagDelimiters.firstNotNullOfOrNull {
                     delimiter ->
                 parseWithDelimiter(localeTag, delimiter)
-            }
-                ?: localeTag.uppercase()
+            } ?: localeTag.uppercase()
         }
 
         private fun getCurrencyByCountryCode(countryCode: String): CurrencyInfo? {
-            return if (countryCurrencyMap.containsKey(countryCode)) {
-                currencyMap[countryCurrencyMap[countryCode]]
-            } else {
-                null
-            }
+            val currencyCode = countryCurrencyMap[countryCode]
+            return currencyCode?.let { currencyMap[it] }
         }
 
         fun getCurrency(locale: String): CurrencyInfo? {
@@ -36,13 +32,13 @@ data class CurrencyInfo(val name: String, val code: String, val symbol: String?,
             return getCurrencyByCountryCode(locale.region)
         }
 
-        fun getCurrencyByCode(code: String): CurrencyInfo? {
-            return currencyMap[code.uppercase()]
+        fun getCurrencyByCode(currencyCode: String): CurrencyInfo? {
+            return currencyMap[currencyCode.uppercase()]
         }
 
         fun getLocalesByCurrencyCode(currencyCode: String): List<String> {
-            val upperCurrencyCode = currencyCode.uppercase()
-            return countryCurrencyMap.filter { it.value == upperCurrencyCode }.map { it.key }
+            val upperCaseCurrencyCode = currencyCode.uppercase()
+            return countryCurrencyMap.filter { it.value == upperCaseCurrencyCode }.map { it.key }
         }
     }
 }
