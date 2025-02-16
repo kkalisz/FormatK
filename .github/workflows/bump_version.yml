@@ -53,6 +53,7 @@ jobs:
         run: |
           sed -i '' -E "s|(implementation\\(\"com\\.bngdev\\.formatk:)[^\"]*(\"\\))|\\1${{ steps.version-extract.outputs.version_name }}\\2|g" README.md
           sed -i '' -E "s|(implementation 'com\\.bngdev\\.formatk:)[^']*('|))|\\1${{ steps.version-extract.outputs.version_name }}\\2|g" README.md
+
       - name: Commit version bump
         run: |
           git config user.name "CI Bot"
