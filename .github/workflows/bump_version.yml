@@ -33,6 +33,7 @@ jobs:
           gradle_properties_location: "./gradle.properties"
 
       - name: Set up JDK 21
+        if: false
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
@@ -47,16 +48,23 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_KEY_CONTENTS }}
 
+      - name: Update README.md in place
+        run: |
+          sed -i -E "s|(^[[:space:]]*implementation\\(\"com\\.bngdev\\.formatk:)[^\"]*(\"\\))|\1${{ steps.version-extract.outputs.version_name }}\2|g" README.md
+          sed -i -E "s|(^[[:space:]]*implementation 'com\\.bngdev\\.formatk:)[^']*('|)|\1${{ steps.version-extract.outputs.version_name }}\2|g" README.md      
+
       - name: Commit version bump
         run: |
           git config user.name "CI Bot"
           git config user.email "ci-bot@kkalisz.com"
           git add gradle.properties
-
+          git add README.md
+          
           git commit -m "Bump version to ${{ steps.version-extract.outputs.version_name }} for branch ${{ steps.branch-names.outputs.current_branch }} [skip ci]"
           git push origin HEAD
 
       - name: Create a Release
+        if: false
         uses: elgohr/Github-Release-Action@v5
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
