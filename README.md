@@ -30,7 +30,7 @@ FormatK supports the following Kotlin Multiplatform targets:
 
 ```kotlin
 dependencies {
-    implementation("com.bngdev.formatk:<VERSION>")
+    implementation("com.bngdev.formatk:0.0.1")
 }
 ```
 
@@ -38,7 +38,7 @@ dependencies {
 
 ```groovy
 dependencies {
-    implementation 'com.bngdev.formatk:<VERSION>'
+    implementation 'com.bngdev.formatk:0.0.1'
 }
 ```
 
