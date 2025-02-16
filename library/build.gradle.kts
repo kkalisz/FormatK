@@ -63,6 +63,7 @@ kotlin {
                 // put your multiplatform dependencies here
             }
         }
+
         @Suppress("UnusedPrivateMember")
         val commonTest by getting {
             dependencies {
@@ -89,7 +90,7 @@ android {
 }
 
 mavenPublishing {
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, true)
 
     signAllPublications()
 
