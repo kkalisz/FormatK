@@ -51,8 +51,8 @@ jobs:
 
       - name: Update README.md in place
         run: |
-          sed -i -E "s|(^[[:space:]]*implementation\\(\"com\\.bngdev\\.formatk:)[^\"]*(\"\\))|\\1${{ steps.version-extract.outputs.version_name }}\\2|g" README.md
-          sed -i -E "s|(^[[:space:]]*implementation 'com\\.bngdev\\.formatk:)[^']*('|)|\\1${{ steps.version-extract.outputs.version_name }}\\2|g" README.md
+          sed -i -E "s|(implementation\\(\"com\\.bngdev\\.formatk:)[^\"]*(\"\\))|\\1${{ steps.version-extract.outputs.version_name }}\\2|g" README.md
+          sed -i -E "s|(implementation 'com\\.bngdev\\.formatk:)[^']*('|))|\\1${{ steps.version-extract.outputs.version_name }}\\2|g" README.md
 
       - name: Commit version bump
         run: |
