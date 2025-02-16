@@ -51,8 +51,8 @@ jobs:
         shell: bash
         run: |
           VERSION="${{ steps.version-extract.outputs.version_name }}"
-          sed -i '' -E "s|implementation\(\"com\.bngdev\.formatk:[^\"]*\"\)|implementation(\"com.bngdev.formatk:${VERSION}\")|g" README.md
-          sed -i '' -E "s|implementation 'com\.bngdev\.formatk:[^']*'|implementation 'com.bngdev.formatk:${VERSION}'|g" README.md
+          sed -i '' -E "s|implementation\(\"com\.bngdev\.formatk:[^\"]*\"\)|implementation(\"com.bngdev:formatk:${VERSION}\")|g" README.md
+          sed -i '' -E "s|implementation 'com\.bngdev\.formatk:[^']*'|implementation 'com.bngdev:formatk:${VERSION}'|g" README.md
       - name: Commit version bump
 
         run: |
