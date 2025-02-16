@@ -28,9 +28,7 @@ fun NumberFormaterSettings.getMaximumFractionDigitsSafe(): Int? {
 
 fun NumberFormaterSettings.getCurrencyInfoSafe(localeInfo: LocaleInfo): CurrencyInfo? {
     if (currencyCode != null) {
-        println("get for $currencyCode")
         return CurrencyInfo.getCurrencyByCode(currencyCode)
     }
-    println("get for local $localeInfo")
     return CurrencyInfo.getCurrency(localeInfo)
 }

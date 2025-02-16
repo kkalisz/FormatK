@@ -133,7 +133,7 @@ println(defaultSettings.useGrouping) // Output: true
 
 ## Testing
 
-FormatK includes a robust suite of tests to ensure seamless functionality across different locales, number styles, and edge cases. The testing framework validates multiple key areas of the library as follows:
+FormatK includes a robust suite of tests to ensure seamless functionality across different locales, number styles, and edge cases. The testing framework validates multiple key areas of the library.
 
 ## Contributing
 
