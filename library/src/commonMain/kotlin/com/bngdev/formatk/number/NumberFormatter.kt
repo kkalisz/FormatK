@@ -1,6 +1,6 @@
 package com.bngdev.formatk.number
 
-interface NumberFormater {
+interface NumberFormatter {
     fun format(
         value: Number
     ): String

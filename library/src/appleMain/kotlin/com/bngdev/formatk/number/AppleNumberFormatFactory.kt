@@ -18,13 +18,13 @@ import platform.Foundation.NSNumberFormatterStyle
 
 class AppleNumberFormatFactory(private val locale: LocaleInfo) : NumberFormatFactory {
 
-    override fun getFormatter(style: FormatStyle, formatOptions: NumberFormaterSettings?): NumberFormater {
+    override fun getFormatter(style: FormatStyle, formatOptions: NumberFormatterSettings?): NumberFormatter {
         val formatter = getFormatter(style)
         formatOptions?.let { options -> applySettings(options, formatter) }
         return AppleNumberFormat(formatter)
     }
 
-    override fun getDefaultSettings(style: FormatStyle): NumberFormaterSettings {
+    override fun getDefaultSettings(style: FormatStyle): NumberFormatterSettings {
         return createNumberFormatSettings(getFormatter(style))
     }
 
@@ -36,8 +36,8 @@ class AppleNumberFormatFactory(private val locale: LocaleInfo) : NumberFormatFac
         return formatter
     }
 
-    private fun createNumberFormatSettings(formatter: NSNumberFormatter): NumberFormaterSettings {
-        return NumberFormaterSettings(
+    private fun createNumberFormatSettings(formatter: NSNumberFormatter): NumberFormatterSettings {
+        return NumberFormatterSettings(
             roundingMode = formatter.roundingMode.toFormatkRoundingMode(),
             minimumFractionDigits = formatter.minimumFractionDigits.toInt(),
             maximumFractionDigits = formatter.maximumFractionDigits.toInt(),
@@ -46,7 +46,7 @@ class AppleNumberFormatFactory(private val locale: LocaleInfo) : NumberFormatFac
         )
     }
 
-    private fun applySettings(source: NumberFormaterSettings, destination: NSNumberFormatter) {
+    private fun applySettings(source: NumberFormatterSettings, destination: NSNumberFormatter) {
         source.useGrouping?.let { destination.usesGroupingSeparator = it }
         source.getMaximumFractionDigitsSafe()?.let { destination.maximumFractionDigits = it.toULong() }
         source.getMinimumFractionDigitsSafe()?.let { destination.minimumFractionDigits = it.toULong() }

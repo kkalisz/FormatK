@@ -2,23 +2,23 @@ package com.bngdev.formatk.number
 
 import com.bngdev.formatk.LocaleInfo
 
-expect object NumberFormaterProvider {
+expect object NumberFormatterProvider {
 
     fun getInstance(locale: LocaleInfo): NumberFormatFactory
 }
 
-fun NumberFormaterProvider.getFormater(
+fun NumberFormatterProvider.getFormater(
     locale: LocaleInfo,
     style: FormatStyle = FormatStyle.DECIMAL,
-    formatOptions: NumberFormaterSettings? = null
-): NumberFormater {
+    formatOptions: NumberFormatterSettings? = null
+): NumberFormatter {
     return getInstance(locale).getFormatter(style, formatOptions)
 }
 
-fun NumberFormaterProvider.getDefaultSettings(
+fun NumberFormatterProvider.getDefaultSettings(
     locale: LocaleInfo,
     style: FormatStyle = FormatStyle.DECIMAL,
-): NumberFormaterSettings {
+): NumberFormatterSettings {
     return getInstance(locale).getDefaultSettings(style)
 }
 

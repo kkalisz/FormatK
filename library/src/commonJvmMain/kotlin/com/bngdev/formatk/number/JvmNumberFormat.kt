@@ -3,7 +3,7 @@ package com.bngdev.formatk.number
 import java.math.BigDecimal
 import java.text.NumberFormat
 
-class JvmNumberFormat(private val numberFormat: NumberFormat) : NumberFormater {
+class JvmNumberFormat(private val numberFormat: NumberFormat) : NumberFormatter {
     override fun format(value: Number): String {
         if (value is Double || value is Float) {
             return numberFormat.format(BigDecimal.valueOf(value.toDouble()))

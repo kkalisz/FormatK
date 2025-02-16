@@ -16,7 +16,7 @@ class NumberFormatterTest {
     @Test
     fun `test formatting decimal value without options in US locale`() {
         val localeInfo = LocaleInfo("en", "US")
-        val format = NumberFormaterProvider.getInstance(localeInfo).getFormatter(FormatStyle.DECIMAL)
+        val format = NumberFormatterProvider.getInstance(localeInfo).getFormatter(FormatStyle.DECIMAL)
 
         val result = format.format(1234.567)
 
@@ -26,7 +26,7 @@ class NumberFormatterTest {
     @Test
     fun `test formatting decimal value without options in German locale`() {
         val localeInfo = LocaleInfo("de", "DE")
-        val format = NumberFormaterProvider.getInstance(localeInfo).getFormatter(FormatStyle.DECIMAL)
+        val format = NumberFormatterProvider.getInstance(localeInfo).getFormatter(FormatStyle.DECIMAL)
 
         val result = format.format(1234.567)
 
@@ -36,8 +36,8 @@ class NumberFormatterTest {
     @Test
     fun `test formatting decimal value with custom fraction digits in French locale`() {
         val localeInfo = LocaleInfo("fr", "FR")
-        val formatOptions = NumberFormaterSettings(minimumFractionDigits = 2, maximumFractionDigits = 2)
-        val format = NumberFormaterProvider.getInstance(localeInfo).getFormatter(FormatStyle.DECIMAL, formatOptions)
+        val formatOptions = NumberFormatterSettings(minimumFractionDigits = 2, maximumFractionDigits = 2)
+        val format = NumberFormatterProvider.getInstance(localeInfo).getFormatter(FormatStyle.DECIMAL, formatOptions)
 
         val result = format.format(1234.567)
 
@@ -47,7 +47,7 @@ class NumberFormatterTest {
     @Test
     fun `test formatting currency value for US locale`() {
         val localeInfo = LocaleInfo("en", "US")
-        val format = NumberFormaterProvider.getInstance(localeInfo).getFormatter(FormatStyle.CURRENCY)
+        val format = NumberFormatterProvider.getInstance(localeInfo).getFormatter(FormatStyle.CURRENCY)
 
         val result = format.format(1234.5)
 
@@ -57,9 +57,9 @@ class NumberFormatterTest {
     @Test
     fun `test formatting currency value for Japanese locale`() {
         val localeInfo = LocaleInfo("ja", "JP")
-        val format = NumberFormaterProvider.getInstance(
+        val format = NumberFormatterProvider.getInstance(
             localeInfo
-        ).getFormatter(FormatStyle.CURRENCY, NumberFormaterSettings(currencyCode = "JPY"))
+        ).getFormatter(FormatStyle.CURRENCY, NumberFormatterSettings(currencyCode = "JPY"))
 
         val result = format.format(1234.51)
 
@@ -69,7 +69,7 @@ class NumberFormatterTest {
     @Test
     fun `test formatting percentage value for US locale`() {
         val localeInfo = LocaleInfo("en", "US")
-        val format = NumberFormaterProvider.getInstance(localeInfo).getFormatter(FormatStyle.PERCENT)
+        val format = NumberFormatterProvider.getInstance(localeInfo).getFormatter(FormatStyle.PERCENT)
 
         val result = format.format(0.85)
 
@@ -79,7 +79,7 @@ class NumberFormatterTest {
     @Test
     fun `test formatting percentage value for German locale`() {
         val localeInfo = LocaleInfo("de", "DE")
-        val format = NumberFormaterProvider.getInstance(localeInfo).getFormatter(FormatStyle.PERCENT)
+        val format = NumberFormatterProvider.getInstance(localeInfo).getFormatter(FormatStyle.PERCENT)
 
         val result = format.format(0.85)
 
@@ -89,11 +89,11 @@ class NumberFormatterTest {
     @Test
     fun `test applying rounding mode HALF_UP for decimal style`() {
         val localeInfo = LocaleInfo("en", "US")
-        val formatOptions = NumberFormaterSettings(
+        val formatOptions = NumberFormatterSettings(
             maximumFractionDigits = 1,
             roundingMode = RoundingMode.HALF_UP
         )
-        val format = NumberFormaterProvider.getInstance(localeInfo).getFormatter(FormatStyle.DECIMAL, formatOptions)
+        val format = NumberFormatterProvider.getInstance(localeInfo).getFormatter(FormatStyle.DECIMAL, formatOptions)
 
         val result = format.format(123.44)
 
@@ -103,11 +103,11 @@ class NumberFormatterTest {
     @Test
     fun `test applying rounding mode HALF_DOWN for decimal style`() {
         val localeInfo = LocaleInfo("en", "US")
-        val formatOptions = NumberFormaterSettings(
+        val formatOptions = NumberFormatterSettings(
             maximumFractionDigits = 1,
             roundingMode = RoundingMode.HALF_DOWN
         )
-        val format = NumberFormaterProvider.getInstance(localeInfo).getFormatter(FormatStyle.DECIMAL, formatOptions)
+        val format = NumberFormatterProvider.getInstance(localeInfo).getFormatter(FormatStyle.DECIMAL, formatOptions)
 
         val result = format.format(123.45)
 
@@ -117,8 +117,8 @@ class NumberFormatterTest {
     @Test
     fun `test currency formatting with custom currency code in US locale`() {
         val localeInfo = LocaleInfo("en", "US")
-        val formatOptions = NumberFormaterSettings(currencyCode = "EUR")
-        val format = NumberFormaterProvider.getInstance(localeInfo).getFormatter(FormatStyle.CURRENCY, formatOptions)
+        val formatOptions = NumberFormatterSettings(currencyCode = "EUR")
+        val format = NumberFormatterProvider.getInstance(localeInfo).getFormatter(FormatStyle.CURRENCY, formatOptions)
 
         val result = format.format(1234.56)
 
@@ -128,8 +128,8 @@ class NumberFormatterTest {
     @Test
     fun `test currency formatting with custom currency code in German locale`() {
         val localeInfo = LocaleInfo("de", "DE")
-        val formatOptions = NumberFormaterSettings(currencyCode = "GBP")
-        val format = NumberFormaterProvider.getInstance(localeInfo).getFormatter(FormatStyle.CURRENCY, formatOptions)
+        val formatOptions = NumberFormatterSettings(currencyCode = "GBP")
+        val format = NumberFormatterProvider.getInstance(localeInfo).getFormatter(FormatStyle.CURRENCY, formatOptions)
 
         val result = format.format(1234.56)
 
@@ -139,7 +139,7 @@ class NumberFormatterTest {
     @Test
     fun `test default settings for decimal style in US locale`() {
         val localeInfo = LocaleInfo("en", "US")
-        val format = NumberFormaterProvider.getInstance(localeInfo)
+        val format = NumberFormatterProvider.getInstance(localeInfo)
 
         val defaultSettings = format.getDefaultSettings(FormatStyle.DECIMAL)
 
@@ -150,7 +150,7 @@ class NumberFormatterTest {
     @Test
     fun `test default settings for decimal style in Italian locale`() {
         val localeInfo = LocaleInfo("it", "IT")
-        val format = NumberFormaterProvider.getInstance(localeInfo)
+        val format = NumberFormatterProvider.getInstance(localeInfo)
 
         val defaultSettings = format.getDefaultSettings(FormatStyle.DECIMAL)
 
@@ -161,8 +161,8 @@ class NumberFormatterTest {
     @Test
     fun `test grouping settings applied`() {
         val localeInfo = LocaleInfo("en", "US")
-        val formatOptions = NumberFormaterSettings(useGrouping = false)
-        val format = NumberFormaterProvider.getInstance(localeInfo).getFormatter(FormatStyle.DECIMAL, formatOptions)
+        val formatOptions = NumberFormatterSettings(useGrouping = false)
+        val format = NumberFormatterProvider.getInstance(localeInfo).getFormatter(FormatStyle.DECIMAL, formatOptions)
 
         val result = format.format(1234567.89)
 
@@ -172,12 +172,12 @@ class NumberFormatterTest {
     @Test
     fun `test no grouping and custom fraction digits in French locale`() {
         val localeInfo = LocaleInfo("fr", "FR")
-        val formatOptions = NumberFormaterSettings(
+        val formatOptions = NumberFormatterSettings(
             useGrouping = false,
             minimumFractionDigits = 3,
             maximumFractionDigits = 3
         )
-        val format = NumberFormaterProvider.getInstance(localeInfo).getFormatter(FormatStyle.DECIMAL, formatOptions)
+        val format = NumberFormatterProvider.getInstance(localeInfo).getFormatter(FormatStyle.DECIMAL, formatOptions)
 
         val result = format.format(1234.567)
 
@@ -187,11 +187,11 @@ class NumberFormatterTest {
     @Test
     fun `test rounding mode CEILING`() {
         val localeInfo = LocaleInfo("en", "US")
-        val formatOptions = NumberFormaterSettings(
+        val formatOptions = NumberFormatterSettings(
             maximumFractionDigits = 1,
             roundingMode = RoundingMode.CEILING
         )
-        val format = NumberFormaterProvider.getInstance(localeInfo).getFormatter(FormatStyle.DECIMAL, formatOptions)
+        val format = NumberFormatterProvider.getInstance(localeInfo).getFormatter(FormatStyle.DECIMAL, formatOptions)
 
         val result = format.format(123.41)
 
@@ -201,11 +201,11 @@ class NumberFormatterTest {
     @Test
     fun `test rounding mode FLOOR`() {
         val localeInfo = LocaleInfo("en", "US")
-        val formatOptions = NumberFormaterSettings(
+        val formatOptions = NumberFormatterSettings(
             maximumFractionDigits = 1,
             roundingMode = RoundingMode.FLOOR
         )
-        val format = NumberFormaterProvider.getInstance(localeInfo).getFormatter(FormatStyle.DECIMAL, formatOptions)
+        val format = NumberFormatterProvider.getInstance(localeInfo).getFormatter(FormatStyle.DECIMAL, formatOptions)
 
         val result = format.format(123.49)
 
@@ -214,7 +214,7 @@ class NumberFormatterTest {
 
     @Test
     fun `test formatting different number types`() {
-        val format = NumberFormaterProvider.getInstance(LocaleInfo("en", "US")).getFormatter(FormatStyle.DECIMAL)
+        val format = NumberFormatterProvider.getInstance(LocaleInfo("en", "US")).getFormatter(FormatStyle.DECIMAL)
 
         assertEquals("123", format.format(123))
         assertEquals("123.45", format.format(123.45f))
@@ -224,7 +224,7 @@ class NumberFormatterTest {
 
     @Test
     fun `test formatting with different styles`() {
-        val formatFactory = NumberFormaterProvider.getInstance(LocaleInfo("en", "US"))
+        val formatFactory = NumberFormatterProvider.getInstance(LocaleInfo("en", "US"))
         val value = 0.456
 
         assertEquals("0.456", formatFactory.getFormatter(FormatStyle.DECIMAL).format(value))
@@ -235,7 +235,7 @@ class NumberFormatterTest {
     @Test
     @Ignore
     fun `test formatting with extreme values`() {
-        val format = NumberFormaterProvider.getInstance(LocaleInfo("en", "US")).getFormatter(FormatStyle.DECIMAL)
+        val format = NumberFormatterProvider.getInstance(LocaleInfo("en", "US")).getFormatter(FormatStyle.DECIMAL)
 
         // assertEquals("1.23E8", format.format(123456789.0, FormatStyle.DECIMAL))
         assertEquals("0", format.format(0.000000001))
@@ -246,8 +246,8 @@ class NumberFormatterTest {
 
     @Test
     fun `test formatting with grouping`() {
-        val withoutGrouping = NumberFormaterSettings(useGrouping = false)
-        val format = NumberFormaterProvider.getInstance(
+        val withoutGrouping = NumberFormatterSettings(useGrouping = false)
+        val format = NumberFormatterProvider.getInstance(
             LocaleInfo("en", "US")
         ).getFormatter(FormatStyle.DECIMAL, withoutGrouping)
 
@@ -256,8 +256,8 @@ class NumberFormatterTest {
 
     @Test
     fun `test formatting without grouping`() {
-        val withoutGrouping = NumberFormaterSettings(useGrouping = false)
-        val format = NumberFormaterProvider.getInstance(
+        val withoutGrouping = NumberFormatterSettings(useGrouping = false)
+        val format = NumberFormatterProvider.getInstance(
             LocaleInfo("en", "US")
         ).getFormatter(FormatStyle.DECIMAL, withoutGrouping)
 
@@ -266,9 +266,9 @@ class NumberFormatterTest {
 
     @Test
     fun `test formatting with different rounding modes`() {
-        val formatFactory = NumberFormaterProvider.getInstance(LocaleInfo("en", "US"))
+        val formatFactory = NumberFormatterProvider.getInstance(LocaleInfo("en", "US"))
         val value = 123.456
-        val options = NumberFormaterSettings(
+        val options = NumberFormatterSettings(
             maximumFractionDigits = 2,
             minimumFractionDigits = 2
         )
@@ -285,12 +285,12 @@ class NumberFormatterTest {
     @Test
     @Ignore
     fun `test formatting with different currency codes`() {
-        val formatFactory = NumberFormaterProvider.getInstance(LocaleInfo("en", "US"))
+        val formatFactory = NumberFormatterProvider.getInstance(LocaleInfo("en", "US"))
         val value = 123.45
 
-        val usdOptions = NumberFormaterSettings(currencyCode = "USD")
-        val eurOptions = NumberFormaterSettings(currencyCode = "EUR")
-        val jpyOptions = NumberFormaterSettings(currencyCode = "JPY")
+        val usdOptions = NumberFormatterSettings(currencyCode = "USD")
+        val eurOptions = NumberFormatterSettings(currencyCode = "EUR")
+        val jpyOptions = NumberFormatterSettings(currencyCode = "JPY")
 
         formatFactory.getFormatter(FormatStyle.CURRENCY, usdOptions).format(value)
 
@@ -301,7 +301,7 @@ class NumberFormatterTest {
 
     @Test
     fun `test default settings for different styles`() {
-        val format = NumberFormaterProvider.getInstance(LocaleInfo("en", "US"))
+        val format = NumberFormatterProvider.getInstance(LocaleInfo("en", "US"))
 
         val decimalSettings = format.getDefaultSettings(FormatStyle.DECIMAL)
         val currencySettings = format.getDefaultSettings(FormatStyle.CURRENCY)
@@ -315,7 +315,7 @@ class NumberFormatterTest {
 
     @Test
     fun `test formatting with null style defaults to decimal`() {
-        val formatFactory = NumberFormaterProvider.getInstance(LocaleInfo("en", "US"))
+        val formatFactory = NumberFormatterProvider.getInstance(LocaleInfo("en", "US"))
         val value = 123.45
 
         assertEquals(
@@ -327,8 +327,8 @@ class NumberFormatterTest {
     @Ignore
     @Test
     fun `test formatting with invalid currency code`() {
-        val options = NumberFormaterSettings(currencyCode = "INVALID")
-        val format = NumberFormaterProvider.getInstance(
+        val options = NumberFormatterSettings(currencyCode = "INVALID")
+        val format = NumberFormatterProvider.getInstance(
             LocaleInfo("en", "US")
         ).getFormatter(FormatStyle.CURRENCY, options)
 
@@ -339,7 +339,7 @@ class NumberFormatterTest {
 
     @Test
     fun `test formatting negative numbers with different styles`() {
-        val formatFactory = NumberFormaterProvider.getInstance(LocaleInfo("en", "US"))
+        val formatFactory = NumberFormatterProvider.getInstance(LocaleInfo("en", "US"))
         val value = -123.45
 
         assertEquals("-123.45", formatFactory.getFormatter(FormatStyle.DECIMAL).format(value))
@@ -349,7 +349,7 @@ class NumberFormatterTest {
 
     @Test
     fun `test formatting with zero values`() {
-        val formatFactory = NumberFormaterProvider.getInstance(LocaleInfo("en", "US"))
+        val formatFactory = NumberFormatterProvider.getInstance(LocaleInfo("en", "US"))
 
         assertEquals("0", formatFactory.getFormatter(FormatStyle.DECIMAL).format(0))
         assertEquals("$0.00", formatFactory.getFormatter(FormatStyle.CURRENCY).format(0.0))
@@ -358,8 +358,8 @@ class NumberFormatterTest {
 
     @Test
     fun `test formatting with exact rounding boundaries`() {
-        val formatFactory = NumberFormaterProvider.getInstance(LocaleInfo("en", "US"))
-        val options = NumberFormaterSettings(
+        val formatFactory = NumberFormatterProvider.getInstance(LocaleInfo("en", "US"))
+        val options = NumberFormatterSettings(
             maximumFractionDigits = 1,
             minimumFractionDigits = 1
         )
@@ -390,26 +390,26 @@ class NumberFormatterTest {
 
     @Test
     fun `test formatting with various fraction digit settings`() {
-        val formatFactory = NumberFormaterProvider.getInstance(LocaleInfo("en", "US"))
+        val formatFactory = NumberFormatterProvider.getInstance(LocaleInfo("en", "US"))
         val value = 123.456789
 
         val noFractionFormat = formatFactory.getFormatter(
             FormatStyle.DECIMAL,
-            NumberFormaterSettings(
+            NumberFormatterSettings(
                 minimumFractionDigits = 0,
                 maximumFractionDigits = 0
             )
         )
         val exactFractionFormat = formatFactory.getFormatter(
             FormatStyle.DECIMAL,
-            NumberFormaterSettings(
+            NumberFormatterSettings(
                 minimumFractionDigits = 3,
                 maximumFractionDigits = 3
             )
         )
         val rangeFractionFormat = formatFactory.getFormatter(
             FormatStyle.DECIMAL,
-            NumberFormaterSettings(
+            NumberFormatterSettings(
                 minimumFractionDigits = 2,
                 maximumFractionDigits = 4
             )
@@ -424,10 +424,10 @@ class NumberFormatterTest {
     fun `test formatting with different locales and separators`() {
         val value = 1234567.89
 
-        val usFormat = NumberFormaterProvider.getInstance(LocaleInfo("en", "US")).getFormatter()
-        val deFormat = NumberFormaterProvider.getInstance(LocaleInfo("de", "DE")).getFormatter()
-        val frFormat = NumberFormaterProvider.getInstance(LocaleInfo("fr", "FR")).getFormatter()
-        val itFormat = NumberFormaterProvider.getInstance(LocaleInfo("it", "IT")).getFormatter()
+        val usFormat = NumberFormatterProvider.getInstance(LocaleInfo("en", "US")).getFormatter()
+        val deFormat = NumberFormatterProvider.getInstance(LocaleInfo("de", "DE")).getFormatter()
+        val frFormat = NumberFormatterProvider.getInstance(LocaleInfo("fr", "FR")).getFormatter()
+        val itFormat = NumberFormatterProvider.getInstance(LocaleInfo("it", "IT")).getFormatter()
 
         assertEquals("1,234,567.89", usFormat.format(value))
         assertEquals("1.234.567,89", deFormat.format(value))
@@ -437,10 +437,10 @@ class NumberFormatterTest {
 
     @Test
     fun `test formatting with combination of all settings`() {
-        val formatFactory = NumberFormaterProvider.getInstance(LocaleInfo("en", "US"))
+        val formatFactory = NumberFormatterProvider.getInstance(LocaleInfo("en", "US"))
         val value = 12345.6789
 
-        val complexSettings = NumberFormaterSettings(
+        val complexSettings = NumberFormatterSettings(
             useGrouping = true,
             roundingMode = RoundingMode.HALF_UP,
             minimumFractionDigits = 2,
@@ -455,16 +455,16 @@ class NumberFormatterTest {
 
     @Test
     fun `test formatting edge numbers`() {
-        val format = NumberFormaterProvider.getFormater(LocaleInfo("en", "US"), FormatStyle.DECIMAL)
+        val format = NumberFormatterProvider.getFormater(LocaleInfo("en", "US"), FormatStyle.DECIMAL)
 
         assertEquals("0.001", format.format(0.001))
         assertEquals("1,000,000", format.format(1000000))
 
         val formatPercent =
-            NumberFormaterProvider.getFormater(
+            NumberFormatterProvider.getFormater(
                 LocaleInfo("en", "US"),
                 FormatStyle.PERCENT,
-                NumberFormaterSettings(minimumFractionDigits = 1, maximumFractionDigits = 1)
+                NumberFormatterSettings(minimumFractionDigits = 1, maximumFractionDigits = 1)
             )
 
         assertEquals(
@@ -473,18 +473,18 @@ class NumberFormatterTest {
                 0.001
             )
         )
-        val formatPercentDefault = NumberFormaterProvider.getFormater(LocaleInfo("en", "US"), FormatStyle.PERCENT)
+        val formatPercentDefault = NumberFormatterProvider.getFormater(LocaleInfo("en", "US"), FormatStyle.PERCENT)
 
         assertEquals("1,000,000%", formatPercentDefault.format(10000))
     }
 
     @Test
     fun `test minimum fraction digits greater than maximum`() {
-        val invalidSettings = NumberFormaterSettings(
+        val invalidSettings = NumberFormatterSettings(
             minimumFractionDigits = 4,
             maximumFractionDigits = 2
         )
-        val format = NumberFormaterProvider.getInstance(
+        val format = NumberFormatterProvider.getInstance(
             LocaleInfo("en", "US")
         ).getFormatter(FormatStyle.DECIMAL, invalidSettings)
 

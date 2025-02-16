@@ -3,23 +3,23 @@ package com.bngdev.formatk.number
 import com.bngdev.formatk.CurrencyInfo
 import com.bngdev.formatk.LocaleInfo
 
-class JSNumberFormaterFactory(
+class JSNumberFormatterFactory(
     private val locale: LocaleInfo,
 ) : NumberFormatFactory {
-    override fun getFormatter(style: FormatStyle, formatOptions: NumberFormaterSettings?): NumberFormater {
+    override fun getFormatter(style: FormatStyle, formatOptions: NumberFormatterSettings?): NumberFormatter {
         val options = numberFormatOptionsTemplate()
         formatOptions?.let { applySettings(it, options) }
         val systemFormat = getFormatter(style.orDefault(), options)
         return JSNumberFormat(systemFormat)
     }
 
-    override fun getDefaultSettings(style: FormatStyle): NumberFormaterSettings {
+    override fun getDefaultSettings(style: FormatStyle): NumberFormatterSettings {
         return createNumberFormatSettings(getFormatter(style, numberFormatOptionsTemplate()))
     }
 
-    private fun createNumberFormatSettings(formatter: Intl.NumberFormat): NumberFormaterSettings {
+    private fun createNumberFormatSettings(formatter: Intl.NumberFormat): NumberFormatterSettings {
         val options = formatter.resolvedOptions()
-        return NumberFormaterSettings(
+        return NumberFormatterSettings(
             roundingMode = RoundingMode.HALF_EVEN,
             minimumFractionDigits = options.minimumFractionDigits,
             maximumFractionDigits = options.maximumFractionDigits,
@@ -57,7 +57,7 @@ class JSNumberFormaterFactory(
         }
     }
 
-    private fun applySettings(source: NumberFormaterSettings, destination: NumberFormatOptionsJs) {
+    private fun applySettings(source: NumberFormatterSettings, destination: NumberFormatOptionsJs) {
         source.getMaximumFractionDigitsSafe()?.let { destination.maximumFractionDigits = it }
         source.getMinimumFractionDigitsSafe()?.let { destination.minimumFractionDigits = it }
         source.useGrouping?.let { destination.useGrouping = it }

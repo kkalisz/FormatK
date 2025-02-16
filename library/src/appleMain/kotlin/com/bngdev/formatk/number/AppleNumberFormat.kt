@@ -3,7 +3,7 @@ package com.bngdev.formatk.number
 import platform.Foundation.NSNumber
 import platform.Foundation.NSNumberFormatter
 
-class AppleNumberFormat(private val formatter: NSNumberFormatter) : NumberFormater {
+class AppleNumberFormat(private val formatter: NSNumberFormatter) : NumberFormatter {
 
     override fun format(
         value: Number,

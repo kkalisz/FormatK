@@ -10,18 +10,18 @@ class JvmNumberFormatFactory(
     private val locale: LocaleInfo,
 ) : NumberFormatFactory {
 
-    override fun getFormatter(style: FormatStyle, formatOptions: NumberFormaterSettings?): NumberFormater {
+    override fun getFormatter(style: FormatStyle, formatOptions: NumberFormatterSettings?): NumberFormatter {
         val format = getFormatter(style.orDefault()).also { numberFormat ->
             formatOptions?.let { options -> applySettings(options, numberFormat, style.orDefault()) }
         }
         return JvmNumberFormat(format)
     }
 
-    override fun getDefaultSettings(style: FormatStyle): NumberFormaterSettings {
+    override fun getDefaultSettings(style: FormatStyle): NumberFormatterSettings {
         return createNumberFormatSettings(getFormatter(style))
     }
 
-    private fun applySettings(source: NumberFormaterSettings, destination: NumberFormat, style: FormatStyle) {
+    private fun applySettings(source: NumberFormatterSettings, destination: NumberFormat, style: FormatStyle) {
         source.getMaximumFractionDigitsSafe()?.let { destination.maximumFractionDigits = it }
         source.getMinimumFractionDigitsSafe()?.let { destination.minimumFractionDigits = it }
         source.useGrouping?.let { destination.isGroupingUsed = it }
@@ -48,8 +48,8 @@ class JvmNumberFormatFactory(
         RoundingMode.HALF_EVEN -> java.math.RoundingMode.HALF_EVEN
     }
 
-    private fun createNumberFormatSettings(format: NumberFormat): NumberFormaterSettings {
-        return NumberFormaterSettings(
+    private fun createNumberFormatSettings(format: NumberFormat): NumberFormatterSettings {
+        return NumberFormatterSettings(
             useGrouping = format.isGroupingUsed,
             roundingMode = format.roundingMode.toFormatkRoundingMode(),
             minimumFractionDigits = format.minimumFractionDigits,
