@@ -2,12 +2,6 @@ package com.bngdev.formatk.number
 
 interface NumberFormater {
     fun format(
-        value: Number,
-        style: FormatStyle? = FormatStyle.DECIMAL,
-        formatOptions: NumberFormaterSettings? = null,
+        value: Number
     ): String
-
-    fun getDefaultSettings(
-        style: FormatStyle = FormatStyle.DECIMAL
-    ): NumberFormaterSettings
 }

@@ -58,13 +58,14 @@ Format numbers into human-readable formats with precision, locale-specific group
 To format plain numbers based on locale:
 
 ```kotlin
+import java.time.format.FormatStyle
 
 // Instantiate a formatter for a specific locale
 val localeInfo = LocaleInfo("en", "US") // English (US)
-val numberFormatter = NumberFormaterFactory.getInstance(localeInfo)
+val numberFormatter = NumberFormaterProvider.getFormater(localeInfo, FormatStyle.DECIMAL)
 
 // Format numbers as decimals
-val formattedDecimal = numberFormatter.format(654321.987, FormatStyle.DECIMAL)
+val formattedDecimal = numberFormatter.format(654321.987)
 println(formattedDecimal) // Output: 654,321.987
 ```
 
@@ -73,7 +74,9 @@ println(formattedDecimal) // Output: 654,321.987
 When dealing with monetary values, FormatK can produce locale-appropriate numbers with currency symbols, decimal places, and grouping.
 
 ```kotlin
-val formattedCurrency = numberFormatter.format(654321.987, FormatStyle.CURRENCY)
+val numberFormatter = NumberFormaterProvider.getFormater(localeInfo, FormatStyle.CURRENCY)
+
+val formattedCurrency = numberFormatter.format(654321.987)
 println(formattedCurrency) // Output: $654,321.99
 ```
 
@@ -83,7 +86,9 @@ For more control, use **custom currency codes** and settings:
 import com.bngdev.formatk.number.NumberFormaterSettings
 
 val customCurrencySettings = NumberFormaterSettings(currencyCode = "GBP")
-val formattedGBP = numberFormatter.format(654321.987, FormatStyle.CURRENCY, customCurrencySettings)
+val numberFormatter = NumberFormaterProvider.getFormater(localeInfo, FormatStyle.CURRENCY, customCurrencySettings)
+
+val formattedGBP = numberFormatter.format(654321.987)
 println(formattedGBP) // Output: £654,321.99
 ```
 
@@ -92,7 +97,10 @@ println(formattedGBP) // Output: £654,321.99
 To represent numbers as percentages:
 
 ```kotlin
-val formattedPercentage = numberFormatter.format(0.975, FormatStyle.PERCENT)
+val numberFormatter = NumberFormaterProvider.getFormater(localeInfo, FormatStyle.PERCENT)
+
+val formattedPercentage = numberFormatter.format(0.975)
+
 println(formattedPercentage) // Output: 97.5%
 ```
 
@@ -116,7 +124,10 @@ val customSettings = NumberFormaterSettings(
     roundingMode = RoundingMode.FLOOR
 )
 
-val formattedNumber = numberFormatter.format(12345.6789, FormatStyle.DECIMAL, customSettings)
+val numberFormatter = NumberFormaterProvider.getFormater(localeInfo, FormatStyle.DECIMAL, customSettings)
+
+
+val formattedNumber = numberFormatter.format(12345.6789)
 println(formattedNumber) // Output: 12345.678
 ```
 
@@ -125,7 +136,7 @@ println(formattedNumber) // Output: 12345.678
 You can retrieve default formatting configurations based on a locale and desired style using the built-in interface:
 
 ```kotlin
-val defaultSettings = numberFormatter.getDefaultSettings(FormatStyle.CURRENCY)
+val defaultSettings = NumberFormaterProvider.getInstance(localeInfo).getDefaultSettings(FormatStyle.CURRENCY)
 println(defaultSettings.useGrouping) // Output: true
 ```
 
