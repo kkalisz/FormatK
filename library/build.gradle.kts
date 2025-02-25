@@ -60,7 +60,15 @@ kotlin {
         @Suppress("UnusedPrivateMember")
         val commonMain by getting {
             dependencies {
+                implementation(libs.kotlinx.datetime)
                 // put your multiplatform dependencies here
+            }
+        }
+
+        @Suppress("UnusedPrivateMember")
+        val commonJsMain by getting {
+            dependencies {
+                implementation(npm("luxon", "3.4.3"))
             }
         }
 

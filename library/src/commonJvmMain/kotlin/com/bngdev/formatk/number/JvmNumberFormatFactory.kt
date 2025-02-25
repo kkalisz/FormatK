@@ -1,6 +1,7 @@
 package com.bngdev.formatk.number
 
 import com.bngdev.formatk.LocaleInfo
+import com.bngdev.formatk.toLocale
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.Currency
@@ -66,9 +67,6 @@ class JvmNumberFormatFactory(
             FormatStyle.PERCENT -> NumberFormat.getPercentInstance(inLocale)
         }
     }
-
-    // TODO check version of java if possible take into consideration android  (Locale.of)
-    private fun LocaleInfo.toLocale(): Locale = Locale(this.language, this.region)
 
     private fun java.math.RoundingMode.toFormatkRoundingMode(): RoundingMode = when (this) {
         java.math.RoundingMode.UP -> RoundingMode.UP
