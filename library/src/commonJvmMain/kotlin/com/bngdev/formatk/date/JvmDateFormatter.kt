@@ -1,5 +1,6 @@
 package com.bngdev.formatk.date
 
+import com.bngdev.formatk.utils.normalizeWhitespaces
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toJavaInstant
 import kotlinx.datetime.toKotlinInstant
@@ -9,7 +10,7 @@ import java.time.format.DateTimeFormatter
 class JvmDateFormatter(private val dateTimeFormatter: DateTimeFormatter) : DateFormatter {
 
     override fun format(instant: Instant): String {
-        return dateTimeFormatter.format(instant.toJavaInstant())
+        return dateTimeFormatter.format(instant.toJavaInstant()).normalizeWhitespaces()
     }
 
     override fun parse(value: String): Instant? {

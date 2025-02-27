@@ -27,20 +27,20 @@ class JvmDateFormatterFactory(
         return TimeZone.getDefault().toZoneId()
     }
 
-    private fun KotlinFormatStyle.toJavaFormatStyle(): FormatStyle {
-        return when (this) {
+    private fun toJavaFormatStyle(style: KotlinFormatStyle): FormatStyle {
+        return when (style) {
             KotlinFormatStyle.SHORT -> FormatStyle.SHORT
             KotlinFormatStyle.MEDIUM -> FormatStyle.MEDIUM
             KotlinFormatStyle.LONG -> FormatStyle.LONG
             KotlinFormatStyle.FULL -> FormatStyle.FULL
-            KotlinFormatStyle.NONE -> FormatStyle.FULL // TODO, but no difference as we ignore this
+            KotlinFormatStyle.NONE -> FormatStyle.SHORT // fallback, ignored usage
         }
     }
 
     private fun getDefaultPattern(settings: DateFormatterSettings, locale: Locale): DateTimeFormatter {
         if (settings.pattern != null) return DateTimeFormatter.ofPattern(settings.pattern)
-        val dateStyle = settings.dateStyle.toJavaFormatStyle()
-        val timeStyle = settings.timeStyle.toJavaFormatStyle()
+        val dateStyle = toJavaFormatStyle(settings.dateStyle)
+        val timeStyle = toJavaFormatStyle(settings.timeStyle)
         val formatMode = settings.getFormatMode()
 
         return when (formatMode) {

@@ -1,88 +1,96 @@
 package com.bngdev.formatk.date
 
+import com.bngdev.formatk.utils.normalizeWhitespaces
 import kotlinx.datetime.Instant
 import luxon.DateTime
+import luxon.DateTimeOptions
+import luxon.FromFormatOptions
+import luxon.ToLocaleStringOptions
 
 class JsDateFormatter(
-    private val locale: String, // Now accepts locale directly in the constructor
+    private val locale: String,
     private val settings: DateFormatterSettings
 ) : DateFormatter {
 
     override fun format(instant: Instant): String {
         val dateTime = DateTime.fromMillis(
-            instant.toEpochMilliseconds().toDouble(),
-            dateTimeOptionsTemplate().also {
-                it.zone = settings.timeZone?.id // Apply time zone if provided
-                it.locale = locale // Apply the passed locale
-            }
+            instant.toEpochMilliseconds().toDouble(), createDateTimeOptions()
         )
-
         return if (settings.pattern != null) {
-            dateTime.toFormat(settings.pattern)
+            dateTime.toFormat(settings.pattern).normalizeWhitespaces()
         } else {
-            dateTime.toLocaleString(
-                toLocaleStringOptionsTemplate().apply {
-                    dateStyle = settings.dateStyle.toLuxon()
-                    timeStyle = settings.timeStyle.toLuxon()
-                    hourCycle = settings.hourCycle.toLuxon()
-                    timeZone = settings.timeZone?.id
-                    this.locale = locale // Apply locale here as well
-                }
-            )
+            dateTime.toLocaleString(createLocaleOptions()).normalizeWhitespaces()
         }
     }
 
-    // Parsing method to convert formatted string back to Instant
     override fun parse(value: String): Instant? {
-        val luxonDateTime = DateTime.fromFormat(
-            value,
-            settings.pattern ?: getDefaultPattern(settings),
-            fromFormatOptionsTemplate().apply {
-                this.locale = locale // Apply locale for parsing
-            }
-        )
-        if (!luxonDateTime.isValid()) {
+        if(settings.pattern == null){
             return null
         }
 
-        return luxonDateTime.toMillis().let { Instant.fromEpochMilliseconds(it.toLong()) }
+        val luxonDateTime = try {
+            DateTime.fromFormat(value, settings.pattern, createFromFormatOptions())
+        } catch (e: Throwable) {
+            return null
+        }
+
+        return try {
+            luxonDateTime.toMillis().let { Instant.fromEpochMilliseconds(it.toLong()) }
+        } catch (e: Throwable) {
+            null
+        }
     }
 
-    private fun getDefaultPattern(settings: DateFormatterSettings?): String {
-        val dateStyle = settings?.dateStyle ?: FormatStyle.LONG
-        val timeStyle = settings?.timeStyle ?: FormatStyle.SHORT
-
-        val datePattern = when (dateStyle) {
-            FormatStyle.SHORT -> "MM/dd/yyyy"
-            FormatStyle.MEDIUM -> "MMM dd, yyyy"
-            FormatStyle.LONG -> "MMMM dd, yyyy"
-            FormatStyle.FULL -> "EEEE, MMMM dd, yyyy"
+    private fun createFromFormatOptions(): FromFormatOptions {
+        val fromFormatOptions = fromFormatOptionsTemplate()
+        fromFormatOptions.locale = locale
+        if (settings.timeZone != null) {
+            fromFormatOptions.zone = settings.timeZone.id
         }
+        return fromFormatOptions
+    }
 
-        val timePattern = when (timeStyle) {
-            FormatStyle.SHORT -> "HH:mm"
-            FormatStyle.MEDIUM -> "HH:mm:ss"
-            FormatStyle.LONG -> "HH:mm:ss z"
-            FormatStyle.FULL -> "HH:mm:ss zzzz"
+    private fun createDateTimeOptions(): DateTimeOptions {
+        val dateTimeOptionsTemplate = dateTimeOptionsTemplate()
+        dateTimeOptionsTemplate.locale = locale
+        getTimezone(settings)?.let {
+            dateTimeOptionsTemplate.zone = it
         }
+        return dateTimeOptionsTemplate
+    }
 
-        return "$datePattern $timePattern"
+    private fun createLocaleOptions(): ToLocaleStringOptions {
+        val toLocaleStringOptions = toLocaleStringTemplate()
+        settings.dateStyle.toLuxon()?.let {
+            toLocaleStringOptions.dateStyle = it
+        }
+        settings.timeStyle.toLuxon()?.let {
+            toLocaleStringOptions.timeStyle = it
+        }
+        toLocaleStringOptions.locale = locale
+        getTimezone(settings)?.let {
+            toLocaleStringOptions.timeZone = it
+        }
+        return toLocaleStringOptions
+    }
+
+    private fun getTimezone(settings: DateFormatterSettings): String? {
+        if(settings.timeZone == null) {
+            return null
+        }
+        if(settings.timeZone.id == "Z"){
+            return "UTC"
+        }
+        return settings.timeZone.id
     }
 }
 
-// Extensions to map Kotlin settings to Luxon values
-private fun FormatStyle.toLuxon(): String {
+private fun FormatStyle.toLuxon(): String? {
     return when (this) {
         FormatStyle.SHORT -> "short"
         FormatStyle.MEDIUM -> "medium"
         FormatStyle.LONG -> "long"
         FormatStyle.FULL -> "full"
-    }
-}
-
-private fun HourCycle.toLuxon(): String {
-    return when (this) {
-        HourCycle.H12 -> "h12"
-        HourCycle.H24 -> "h23"
+        FormatStyle.NONE -> null
     }
 }

@@ -36,10 +36,14 @@ kotlin {
         binaries.executable()
     }
 
+
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         browser()
         binaries.executable()
+        compilerOptions {
+            freeCompilerArgs.add("-Xwasm-attach-js-exception")
+        }
     }
 
     @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -76,6 +80,12 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(libs.kotlin.test)
+            }
+        }
+
+        val wasmJsMain by getting {
+            dependencies{
+                implementation(npm("luxon", "3.4.3"))
             }
         }
     }
